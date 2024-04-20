@@ -38,10 +38,10 @@ def get_location(request):
             distance = geodesic((latitude, longitude), (landmark.latitude, landmark.longitude)).kilometers
             distances.append((landmark, distance))
 
-        # Сортируем достопримечательности по расстоянию до пользователя
-        sorted_landmarks = sorted(distances, key=lambda x: x[1])[:10]
+        # Сортируем достопримечательности по расстоянию до пользователя в порядке убывания
+        sorted_landmarks = sorted(distances, key=lambda x: x[1], reverse=True)
 
-        # Собираем данные о ближайших достопримечательностях
+        # Формируем список данных о достопримечательностях
         landmarks_data = []
         for landmark, distance in sorted_landmarks:
             landmarks_data.append({
