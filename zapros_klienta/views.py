@@ -11,11 +11,22 @@ from .models import Landmark
 def get_location(request):
     try:
         # Получаем параметры широты и долготы из GET-запроса
-        latitude = request.GET.get('latitude', '')
-        longitude = request.GET.get('longitude', '')
+        latitude = request.GET.get('latitude')
+        longitude = request.GET.get('longitude')
+
+        # Проверяем, что параметры широты и долготы не пустые
+        if latitude is None or longitude is None:
+            return JsonResponse({'error': 'Latitude and longitude parameters are required'})
+
+        # Пытаемся преобразовать параметры широты и долготы во float
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+        except ValueError:
+            return JsonResponse({'error': 'Latitude and longitude must be valid floating point numbers'})
 
         # Создаем географическую точку на основе полученных координат
-        user_location = Point(float(longitude), float(latitude))
+        user_location = Point(longitude, latitude)
 
         # Получаем все достопримечательности из базы данных
         landmarks = Landmark.objects.all()
