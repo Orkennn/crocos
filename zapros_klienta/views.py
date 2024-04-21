@@ -1,12 +1,18 @@
+import requests
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from geopy.distance import geodesic
 from shapely.geometry import Point
 import pandas as pd
 from .models import Landmark
 from django.views.decorators.http import require_POST
-from .chatbot import generate_response
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializer import ChatbotInputSerializer
 
 
 @require_http_methods(["GET"])
@@ -56,11 +62,3 @@ def get_location(request):
         return JsonResponse({'error': str(e)})
 
 
-@require_POST
-def chatbot_endpoint(request):
-    if request.method == 'POST':
-        question = request.POST.get('question', '')
-
-        response = generate_response(question)
-
-        return JsonResponse({'response': response})
