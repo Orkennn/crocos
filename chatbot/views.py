@@ -7,17 +7,17 @@ from .models import Chat
 from django.utils import timezone
 
 
-def ask_openai(message):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are an helpful assistant."},
-            {"role": "user", "content": message},
-        ]
-    )
+#def ask_openai(message):
+#    response = openai.ChatCompletion.create(
+#        model="gpt-4",
+#        messages=[
+#            {"role": "system", "content": "You are an helpful assistant."},
+#            {"role": "user", "content": message},
+#        ]
+#    )
 
-    answer = response.choices[0].message.content.strip()
-    return answer
+#    answer = response.choices[0].message.content.strip()
+#    return answer
 
 def chatbot(request):
     chats = Chat.objects.filter(user=request.user)
