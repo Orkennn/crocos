@@ -6,18 +6,20 @@ from django.contrib.auth.models import User
 from .models import Chat
 from django.utils import timezone
 
+openai_api_key = 'sk-proj-a0jMgGLEAKiBPGCqC25MT3BlbkFJcJOIbCCjoyzwRGRKiHrf'
+openai.api_key = openai_api_key
 
-#def ask_openai(message):
-#    response = openai.ChatCompletion.create(
-#        model="gpt-4",
-#        messages=[
-#            {"role": "system", "content": "You are an helpful assistant."},
-#            {"role": "user", "content": message},
-#        ]
-#    )
+def ask_openai(message):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are an helpful assistant."},
+            {"role": "user", "content": message},
+        ]
+    )
 
-#    answer = response.choices[0].message.content.strip()
-#    return answer
+    answer = response.choices[0].message.content.strip()
+    return answer
 
 def chatbot(request):
     chats = Chat.objects.filter(user=request.user)
