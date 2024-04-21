@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from .models import Chat
 from django.utils import timezone
 
-openai_api_key = 'your_api_key'
-openai.api_key = openai_api_key
+#openai_api_key = 'your_api_key'
+#openai.api_key = openai_api_key
 
 def ask_openai(message):
     response = openai.ChatCompletion.create(
