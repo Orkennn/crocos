@@ -1,18 +1,13 @@
-from django.shortcuts import render
-
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import openai
-
 from django.contrib import auth
 from django.contrib.auth.models import User
 from .models import Chat
-
 from django.utils import timezone
 
 openai_api_key = 'your_api_key'
 openai.api_key = openai_api_key
-
 
 def ask_openai(message):
     response = openai.ChatCompletion.create(
@@ -26,8 +21,6 @@ def ask_openai(message):
     answer = response.choices[0].message.content.strip()
     return answer
 
-
-# Create your views here.
 def chatbot(request):
     chats = Chat.objects.filter(user=request.user)
 
@@ -38,8 +31,7 @@ def chatbot(request):
         chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
         chat.save()
         return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html', {'chats': chats})
-
+    return JsonResponse({'error': 'Invalid request method'})
 
 def login(request):
     if request.method == 'POST':
@@ -51,10 +43,9 @@ def login(request):
             return redirect('chatbot')
         else:
             error_message = 'Invalid username or password'
-            return render(request, 'login.html', {'error_message': error_message})
+            return JsonResponse({'error': error_message})
     else:
-        return render(request, 'login.html')
-
+        return JsonResponse({'error': 'Invalid request method'})
 
 def register(request):
     if request.method == 'POST':
@@ -71,11 +62,11 @@ def register(request):
                 return redirect('chatbot')
             except:
                 error_message = 'Error creating account'
-                return render(request, 'register.html', {'error_message': error_message})
+                return JsonResponse({'error': error_message})
         else:
-            error_message = 'Password dont match'
-            return render(request, 'register.html', {'error_message': error_message})
-    return render(request, 'register.html')
+            error_message = 'Passwords do not match'
+            return JsonResponse({'error': error_message})
+    return JsonResponse({'error': 'Invalid request method'})
 
 
 def logout(request):
