@@ -33,6 +33,7 @@ def chatbot(request):
         return JsonResponse({'message': message, 'response': response})
     return JsonResponse({'error': 'Invalid request method'})
 
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -46,6 +47,7 @@ def login(request):
             return JsonResponse({'error': error_message})
     else:
         return JsonResponse({'error': 'Invalid request method'})
+
 
 def register(request):
     if request.method == 'POST':

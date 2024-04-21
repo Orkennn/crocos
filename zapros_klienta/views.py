@@ -48,13 +48,18 @@ def get_location(request):
                 'name': landmark.name,
                 'latitude': landmark.latitude,
                 'longitude': landmark.longitude,
-                'distance': distance
+                'description': landmark.description,
+                'photo_url': landmark.photo.url,
+                'work_schedule': landmark.work_schedule,
+                'price': landmark.price,
+                'contacts': landmark.contacts,
+                'history_fact': landmark.history_fact,
             })
 
         location_data = {
             'latitude': latitude,
             'longitude': longitude,
-            'nearest_landmarks': landmarks_data
+            'nearest_landmarks': landmarks_data,
         }
         return JsonResponse(location_data)
 
